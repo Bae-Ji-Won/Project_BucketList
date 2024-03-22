@@ -115,6 +115,7 @@ public class PostService {
     }
 
     // 상세조회
+    @Cacheable(value = "postValue", key = "#postId")   
     public PostReadResponse read(Long postId) {
 
         // Entity
@@ -132,6 +133,7 @@ public class PostService {
 
     // 수정
     @Transactional
+    @CachePut(value = "postValue", key = "#postId")  
     public PostUpdateResponse update(PostUpdateRequest request, Long postId,Long userId) {
     //    로그인 되어있는지 확인하고 아니면 에러던짐
         Member member = checkMember(userId);
@@ -179,6 +181,7 @@ public class PostService {
 
     // 삭제
     @Transactional
+    @CacheEvict(value = "postValue", key = "#postId")  
     public void delete(Long postId, Long userId) {
         // 로그인 되어있는지 확인하고 아니면 에러던짐
         Member member = checkMember(userId);
